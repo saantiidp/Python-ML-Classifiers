@@ -172,32 +172,6 @@ print("Media:", sum(errores) / len(errores))
 
 > Nota: si vas a usarlo “en limpio”, lo ideal es convertir `validacion(...)` en método estático o función de utilidad y no instanciar `Clasificador` directamente (es abstracta).
 
----
-
-## 🧯 Detalles a revisar (importante si lo publicas)
-
-Hay varias cosas que conviene saber para evitar confusiones:
-
-1) **`error()` realmente calcula precisión (accuracy), no error**
-   - En `Clasificador.error`, se incrementa el contador cuando **acierta**, y se devuelve `aciertos / total`.
-   - El nombre “error” es engañoso: devuelve **accuracy**.
-
-2) **`ValidacionSimple.numeroEjecuciones` no se usa**
-   - Se crea una sola partición por llamada.
-
-3) **`seed` no se propaga**
-   - `Clasificador.validacion(..., seed=...)` no pasa `seed` a `creaParticiones` (y además se llama sin seed).
-   - Si buscas reproducibilidad, hay que conectarlo.
-
-4) **Naive Bayes continuo: media/std no están condicionadas por clase**
-   - El código guarda `(media, std)` por atributo usando toda la columna del train (no por clase).
-   - En el NB gaussiano “clásico” debería ser `media/std` **por (atributo, clase)**.
-   - Aun así, el notebook muestra resultados razonables, pero esto explica por qué podrían no ser los óptimos.
-
-5) **Normalización en KNN propio**
-   - Se normaliza cada columna dividiendo por `std`. Si `std == 0` (atributo constante), habría división por cero (no está controlado).
-
----
 
 ## 🛠️ Dependencias
 
